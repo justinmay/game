@@ -46,10 +46,16 @@ class Game extends React.Component<GameProps,GameState> {
                 grass: 0,
                 lava: 10,
             }
-        } else {
+        } else if (board[row][column].water === 10) {
             board[row][column] = {
                 water: 0,
                 grass: 10,
+                lava: 0,
+            }
+        } else {
+            board[row][column] = {
+                water: 0,
+                grass: 0,
                 lava: 0,
             }
         }

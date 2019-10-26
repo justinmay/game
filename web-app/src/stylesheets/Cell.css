@@ -1,0 +1,7 @@
+.cell {
+    height: 10vh;
+    width: 10vh;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}

@@ -46,16 +46,16 @@ class Game extends React.Component<GameProps,GameState> {
                 grass: 0,
                 lava: 10,
             }
-        } else if (board[row][column].water === 10) {
+        } else if (board[row][column].lava === 10) {
             board[row][column] = {
                 water: 0,
-                grass: 10,
+                grass: 0,
                 lava: 0,
             }
         } else {
             board[row][column] = {
                 water: 0,
-                grass: 0,
+                grass: 10,
                 lava: 0,
             }
         }
@@ -71,6 +71,9 @@ class Game extends React.Component<GameProps,GameState> {
     }
 
     getHexValue(r: number, g: number, b: number) {
+        if (r + g + b === 0) {
+            return "#FFF"
+        }
         var hex = [
             Math.floor(r / (r + g + b) * 255).toString( 16 ),
             Math.floor(g / (r + g + b) * 255).toString( 16 ),

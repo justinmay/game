@@ -2,9 +2,11 @@ import React from 'react';
 import Cell from './Cell';
 import * as d3 from 'd3';
 import '../stylesheets/Game.css';
+import {getDefaultBoard} from '../defaultBoard';
 
-type cell = {
-    terrain: "land" | "water" | "desert",
+
+export type cell = {
+    terrain: "land" | "water" | "desert" | "lava",
 }
 
 type GameProps = {
@@ -18,14 +20,18 @@ class Game extends React.Component<GameProps,GameState> {
     constructor(props: GameProps) {
         super(props)
         /** Variables */
-        const size = 20; // the size of the map
+        // const size = 20; // the size of the map
+        // this.state={
+        //     board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'terrain':'land'}))})
+        // }
         this.state={
-            board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'terrain':'water'}))})
+            board: getDefaultBoard()
         }
     }
 
     componentDidMount() {
         this.colorBoard()
+        console.log(this.state.board)
     }
 
     colorBoard() {
@@ -35,7 +41,7 @@ class Game extends React.Component<GameProps,GameState> {
         });
         d3.selectAll(".cell")
         .data(board)
-        .style("background-color",val => {return val.terrain === "water" ? "#00F" : "#FFF"})
+        .style("background-color",val => {return val.terrain === "water" ? "#00F" : val.terrain === "land" ? "#FFF" : val.terrain === "lava" ? "#F00" : "#FF0"})
     }
     render() {
         return(

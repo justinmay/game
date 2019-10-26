@@ -30,7 +30,7 @@ class Game extends React.Component<GameProps,GameState> {
 
     colorBoard() {
         let board: cell[] = [];
-        this.state.board.map( row => {
+        this.state.board.forEach( row => {
             board = board.concat(row)
         });
         d3.selectAll(".cell")

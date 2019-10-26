@@ -3,7 +3,7 @@ import Cell from './Cell';
 import '../stylesheets/Game.css';
 
 type cell = {
-    terrain: string,
+    terrain: "land" | "water" | "desert",
 }
 
 type GameProps = {
@@ -16,28 +16,22 @@ type GameState = {
 class Game extends React.Component<GameProps,GameState> {
     constructor(props: GameProps) {
         super(props)
+        /** Variables */
+        const size = 20; // the size of the map
         this.state={
-            board: Array(40).fill(0).map(() => {return new Array(this.state !== undefined? this.state.size: 40).fill(cell)})
+            board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'terrain':'water'}))})
         }
     }
     render() {
-      return(
-          <div className="GridContainer">
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-              <Cell/>
-          </div>
-      );
+        return(
+            <div className="GridContainer">
+                {this.state.board.map(row => {
+                    return row.map(cell => {
+                        return <Cell/>
+                    })
+                })}
+            </div>
+        );
     }
 }
 

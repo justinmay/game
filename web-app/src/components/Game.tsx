@@ -1,5 +1,6 @@
 import React from 'react';
 import Cell from './Cell';
+import * as d3 from 'd3';
 import '../stylesheets/Game.css';
 
 type cell = {
@@ -22,12 +23,26 @@ class Game extends React.Component<GameProps,GameState> {
             board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'terrain':'water'}))})
         }
     }
+
+    componentDidMount() {
+        this.colorBoard()
+    }
+
+    colorBoard() {
+        let board: cell[] = [];
+        this.state.board.map( row => {
+            board = board.concat(row)
+        });
+        d3.selectAll(".cell")
+        .data(board)
+        .style("background-color",val => {return val.terrain === "water" ? "#00F" : "#FFF"})
+    }
     render() {
         return(
             <div className="GridContainer">
-                {this.state.board.map(row => {
-                    return row.map(cell => {
-                        return <Cell/>
+                {this.state.board.map((row,i) => {
+                    return row.map((cell,j) => {
+                        return <Cell key={i+j}row={i} column={j}/>
                     })
                 })}
             </div>

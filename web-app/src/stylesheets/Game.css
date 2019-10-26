@@ -1,0 +1,8 @@
+.GridContainer {
+    height: 100vh;
+    width: 100vh;
+    display: grid;
+    grid-gap: 0px;
+    margin: 0;
+    grid-template-columns: repeat(10, 10vh)
+}

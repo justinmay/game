@@ -6,7 +6,9 @@ import {getDefaultBoard} from '../defaultBoard';
 
 
 export type cell = {
-    terrain: "land" | "water" | "desert" | "lava",
+    water: number;
+    grass: number;
+    lava: number;
 }
 
 type GameProps = {
@@ -22,7 +24,7 @@ class Game extends React.Component<GameProps,GameState> {
         /** Variables */
         // const size = 20; // the size of the map
         // this.state={
-        //     board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'terrain':'land'}))})
+        //     board: Array(size).fill(0).map(() => {return Array.from({length:size},(): cell=> ({'water':0,'grass':0,'lava':0}))})
         // }
         this.state={
             board: getDefaultBoard()
@@ -34,14 +36,28 @@ class Game extends React.Component<GameProps,GameState> {
         console.log(this.state.board)
     }
 
+    getHexValue(r: number, g: number, b: number) {
+        var hex = [
+            Math.floor(r / (r + g + b) * 255).toString( 16 ),
+            Math.floor(g / (r + g + b) * 255).toString( 16 ),
+            Math.floor(b / (r + g + b) * 255).toString( 16 )
+        ];
+        if (hex[0].length === 1) hex[0] = "0" + hex[0];
+        if (hex[1].length === 1) hex[1] = "0" + hex[1];
+        if (hex[2].length === 1) hex[2] = "0" + hex[2];
+        console.log("#" + hex.join( "" ).toUpperCase(), hex[0], hex[1])
+        return "#" + hex.join( "" ).toUpperCase();
+    }
+
     colorBoard() {
         let board: cell[] = [];
         this.state.board.forEach( row => {
             board = board.concat(row)
         });
+        console.log(this.state.board)
         d3.selectAll(".cell")
         .data(board)
-        .style("background-color",val => {return val.terrain === "water" ? "#00F" : val.terrain === "land" ? "#FFF" : val.terrain === "lava" ? "#F00" : "#FF0"})
+        .style("background-color",val => {return this.getHexValue(val.lava,val.grass,val.water)})
     }
     render() {
         return(
